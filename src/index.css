@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 10%;
+    --foreground: 38 58% 88%;
+    --card: 0 0% 10%;
+    --card-foreground: 38 58% 88%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 38 58% 88%;
+    --primary: 43 74% 53%;
+    --primary-foreground: 0 0% 10%;
+    --lagoon: 174 67% 51%;
+    --lagoon-foreground: 0 0% 10%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 38 58% 88%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 90%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 38 58% 88%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 43 30% 30%;
+    --input: 43 30% 30%;
+    --ring: 43 74% 53%;
+    --chart-1: 43 74% 53%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.25rem;
+    --font-heading: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+    --font-body: 'Manrope', system-ui, -apple-system, sans-serif;
+    --font-display: 'Bodoni Moda', Georgia, serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 38 58% 88%;
+    --sidebar-primary: 43 74% 53%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 38 58% 88%;
+    --sidebar-border: 43 30% 30%;
+    --sidebar-ring: 43 74% 53%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    font-size: 18px;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary));
+  border-radius: 3px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
