@@ -10,6 +10,7 @@ const IMG = {
   barracuda: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/3a3e55a34_generated_bb3f9b85.png",
   night: "/night-dive-diver.jpg",
   nitrox: "/nitrox-diver.jpg",
+  sidemount: "/sidemount-diver.jpg",
 };
 
 export const categoryOrder = [
@@ -235,7 +236,7 @@ export const activities = [
     slug: "padi-sidemount",
     title: "PADI Sidemount",
     category: "Specialities",
-    image: IMG.coral,
+    image: IMG.sidemount,
     tagline: "Experience a new configuration that offers flexibility, and comfort.",
     stats: [
       { label: "Duration", value: "2 Days" },
