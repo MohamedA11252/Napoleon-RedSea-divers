@@ -13,6 +13,7 @@ const IMG = {
   sidemount: "/sidemount-diver.jpg",
   navigation: "/navigation-diver.png",
   efr: "/efr-training.jpg",
+  ppb: "/peak-performance-buoyancy.jpg",
 };
 
 export const categoryOrder = [
@@ -272,7 +273,7 @@ export const activities = [
     slug: "padi-Peak-Performance-Buoyancy-diver",
     title: "PADI Peak Performance Buoyancy",
     category: "Specialities",
-    image: IMG.wreck,
+    image: IMG.ppb,
     tagline: "Where control needs confidence.",
     stats: [
       { label: "Duration", value: "2 Days" },
