@@ -8,7 +8,7 @@ const IMG = {
   rescue: "/1ad61115d_generated_image.jpg",
   divemaster: "/c64b8fa8e_generated_image.jpg",
   barracuda: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/3a3e55a34_generated_bb3f9b85.png",
-  night: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/71a987405_generated_62265158.png",
+  night: "/night-dive-diver.jpg",
 };
 
 export const categoryOrder = [
