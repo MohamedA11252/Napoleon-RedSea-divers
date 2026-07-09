@@ -17,6 +17,7 @@ const IMG = {
   dailydiving: "/daily-diving-boat.jpg",
   drift: "/drift-diving.avif",
   reactivate: "/reactivate.avif",
+  aow: "/advanced-open-water.jpg",
 };
 
 export const categoryOrder = [
@@ -103,7 +104,7 @@ export const activities = [
     slug: "padi-advanced-open-water",
     title: "PADI Advanced Open Water",
     category: "Courses",
-    image: IMG.coral,
+    image: IMG.aow,
     tagline: "Take the next step — refine your skills and explore new underwater territories.",
     stats: [
       { label: "Max Depth", value: "30m" },
