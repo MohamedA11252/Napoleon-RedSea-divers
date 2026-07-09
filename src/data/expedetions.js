@@ -9,6 +9,7 @@ const IMG = {
   divemaster: "/c64b8fa8e_generated_image.jpg",
   barracuda: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/3a3e55a34_generated_bb3f9b85.png",
   night: "/night-dive-diver.jpg",
+  nitrox: "/nitrox-diver.jpg",
 };
 
 export const categoryOrder = [
@@ -217,7 +218,7 @@ export const activities = [
     slug: "padi-enriched-air-nitrox",
     title: "PADI Enriched Air (Nitrox)",
     category: "Specialities",
-    image: IMG.coral,
+    image: IMG.nitrox,
     tagline: "Dive longer, dive safer — master the use of enriched air nitrox.",
     stats: [
       { label: "Duration", value: "1 Day" },
