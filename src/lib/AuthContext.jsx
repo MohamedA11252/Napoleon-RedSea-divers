@@ -1,97 +1,74 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-
-const AUTH_STORAGE_KEY = 'napoleon_auth_user';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import { adminApi } from './api';
 
 const AuthContext = createContext(null);
 
-function readStoredUser() {
-  try {
-    const raw = localStorage.getItem(AUTH_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
-  const [isLoadingPublicSettings, setIsLoadingPublicSettings] = useState(false);
-  const [authError, setAuthError] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
-  const [appPublicSettings, setAppPublicSettings] = useState(null);
+  const [authError, setAuthError] = useState(null);
 
-  useEffect(() => {
-    const storedUser = readStoredUser();
-    if (storedUser) {
-      setUser(storedUser);
-      setIsAuthenticated(true);
+  /**
+   * Ask the server whether the current HTTP-only session cookie is a valid
+   * admin session. No credentials are stored client-side.
+   */
+  const checkUserAuth = useCallback(async () => {
+    setIsLoadingAuth(true);
+    try {
+      const { isAdmin: adminStatus } = await adminApi.session();
+      setIsAdmin(adminStatus);
+      setIsAuthenticated(adminStatus);
+      setUser(adminStatus ? { id: 'admin', full_name: 'Administrator', isAdmin: true } : null);
+      setAuthError(null);
+    } catch {
+      setIsAdmin(false);
+      setIsAuthenticated(false);
+      setUser(null);
+    } finally {
+      setIsLoadingAuth(false);
+      setAuthChecked(true);
     }
-    setIsLoadingAuth(false);
-    setAuthChecked(true);
   }, []);
 
-  // Derived admin flag — only true when the stored user was authenticated as admin
-  const isAdmin = user?.isAdmin === true;
+  // Verify session on first render
+  useEffect(() => {
+    checkUserAuth();
+  }, [checkUserAuth]);
 
+  /**
+   * Send username + password to the server for validation.
+   * On success the server sets an HTTP-only session cookie.
+   * Credentials are never stored in the browser.
+   */
   const loginWithEmailPassword = async (username, password) => {
     if (!username?.trim() || !password?.trim()) {
-      throw new Error('Username and password are required');
+      throw new Error('Username and password are required.');
     }
-
-    const adminUsername = import.meta.env.VITE_ADMIN_USERNAME;
-    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
-
-    if (!adminUsername || !adminPassword) {
-      throw new Error('Admin credentials are not configured. Please contact the site owner.');
-    }
-
-    if (username.trim() !== adminUsername || password !== adminPassword) {
-      throw new Error('Invalid username or password');
-    }
-
-    const nextUser = {
-      id: 'admin',
-      username: adminUsername,
-      full_name: 'Administrator',
-      isAdmin: true,
-    };
-
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(nextUser));
-    setUser(nextUser);
+    await adminApi.login(username.trim(), password); // throws on bad credentials
+    setIsAdmin(true);
     setIsAuthenticated(true);
+    setUser({ id: 'admin', full_name: 'Administrator', isAdmin: true });
     setAuthError(null);
-    setAuthChecked(true);
-    return nextUser;
   };
 
-  // Provider sign-in is not used for admin — kept for interface compatibility
+  // Provider sign-in is not applicable for admin login
   const loginWithProvider = async () => {
-    throw new Error('Provider sign-in is not available for admin login');
+    throw new Error('Provider sign-in is not available for admin login.');
   };
 
-  const checkUserAuth = async () => {
-    setIsLoadingAuth(true);
-    const storedUser = readStoredUser();
-    setUser(storedUser);
-    setIsAuthenticated(!!storedUser);
-    setIsLoadingAuth(false);
-    setAuthChecked(true);
-  };
-
-  const checkAppState = async () => {
-    setIsLoadingPublicSettings(false);
-    setAuthError(null);
-    await checkUserAuth();
-  };
-
-  const logout = (shouldRedirect = true) => {
-    localStorage.removeItem(AUTH_STORAGE_KEY);
-    setUser(null);
+  const logout = async (shouldRedirect = true) => {
+    try {
+      await adminApi.logout();
+    } catch {
+      // ignore — clear state regardless
+    }
+    setIsAdmin(false);
     setIsAuthenticated(false);
+    setUser(null);
     setAuthChecked(true);
-
     if (shouldRedirect) {
       window.location.href = '/login';
     }
@@ -101,6 +78,11 @@ export const AuthProvider = ({ children }) => {
     window.location.href = '/login';
   };
 
+  const checkAppState = async () => {
+    setAuthError(null);
+    await checkUserAuth();
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -108,9 +90,9 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         isAdmin,
         isLoadingAuth,
-        isLoadingPublicSettings,
+        isLoadingPublicSettings: false,
         authError,
-        appPublicSettings,
+        appPublicSettings: null,
         authChecked,
         logout,
         navigateToLogin,
@@ -127,8 +109,6 @@ export const AuthProvider = ({ children }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (!context) throw new Error('useAuth must be used within an AuthProvider');
   return context;
 };

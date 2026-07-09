@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Check, X, Star, ArrowLeft, LogOut, Clock, CheckCircle } from "lucide-react";
-import { getAllComments, updateCommentApproval, deleteComment } from "@/lib/guestComments";
+import { commentsApi } from "@/lib/api";
 import { useAuth } from "@/lib/AuthContext";
 
 export default function ReviewComments() {
   const { isAdmin, logout } = useAuth();
-  const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const loadComments = () => {
+  const loadComments = async () => {
     try {
-      const data = getAllComments();
+      const data = await commentsApi.getAll();
       setComments(Array.isArray(data) ? data : []);
-    } catch {
+      setError("");
+    } catch (err) {
+      setError(err.message || "Failed to load comments.");
       setComments([]);
     } finally {
       setLoading(false);
@@ -25,18 +27,26 @@ export default function ReviewComments() {
     loadComments();
   }, []);
 
-  const handleApproval = (id, nextApproved) => {
-    updateCommentApproval(id, nextApproved);
-    loadComments();
+  const handleApproval = async (id, approved) => {
+    try {
+      await commentsApi.setApproval(id, approved);
+      await loadComments();
+    } catch (err) {
+      setError(err.message || "Failed to update comment.");
+    }
   };
 
-  const handleDelete = (id) => {
-    deleteComment(id);
-    loadComments();
+  const handleDelete = async (id) => {
+    try {
+      await commentsApi.remove(id);
+      await loadComments();
+    } catch (err) {
+      setError(err.message || "Failed to delete comment.");
+    }
   };
 
   const pending = comments.filter((c) => c.approved === false);
-  const approvedComments = comments.filter((c) => c.approved !== false);
+  const approvedComments = comments.filter((c) => c.approved === true);
 
   return (
     <div className="bg-background min-h-screen">
@@ -71,19 +81,23 @@ export default function ReviewComments() {
           Approve or reject guest impressions before they appear on the public guestbook.
         </p>
 
+        {error && (
+          <div className="mb-8 p-4 border border-destructive/30 bg-destructive/10 text-destructive text-sm font-body">
+            {error}
+          </div>
+        )}
+
         {loading ? (
           <div className="flex justify-center py-20">
             <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
           </div>
         ) : (
           <div className="space-y-16">
-            {/* Pending section */}
+            {/* Pending */}
             <section>
               <div className="flex items-center gap-3 mb-6">
                 <Clock size={18} className="text-foreground/40" strokeWidth={1.5} />
-                <h2 className="font-display text-2xl text-foreground">
-                  Pending Review
-                </h2>
+                <h2 className="font-display text-2xl text-foreground">Pending Review</h2>
                 <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/40 font-body border border-foreground/15 px-2 py-0.5">
                   {pending.length}
                 </span>
@@ -106,13 +120,11 @@ export default function ReviewComments() {
               )}
             </section>
 
-            {/* Approved section */}
+            {/* Approved */}
             <section>
               <div className="flex items-center gap-3 mb-6">
                 <CheckCircle size={18} className="text-primary/60" strokeWidth={1.5} />
-                <h2 className="font-display text-2xl text-foreground">
-                  Approved
-                </h2>
+                <h2 className="font-display text-2xl text-foreground">Approved</h2>
                 <span className="text-[11px] uppercase tracking-[0.2em] text-primary font-body border border-primary/20 px-2 py-0.5">
                   {approvedComments.length}
                 </span>
@@ -156,7 +168,7 @@ function CommentCard({ comment, isApproved = false, isAdmin, onApprove, onReject
         </div>
         <span
           className={`text-[10px] uppercase tracking-[0.15em] px-3 py-1 border ${
-            comment.approved !== false
+            comment.approved === true
               ? "border-primary/30 text-primary"
               : "border-foreground/20 text-foreground/50"
           }`}
@@ -180,7 +192,7 @@ function CommentCard({ comment, isApproved = false, isAdmin, onApprove, onReject
         {comment.comment}
       </p>
 
-      {/* Management buttons — only visible to admin */}
+      {/* Admin-only controls — never rendered for regular visitors */}
       {isAdmin && (
         <div className="flex flex-wrap gap-3">
           {comment.approved === false ? (

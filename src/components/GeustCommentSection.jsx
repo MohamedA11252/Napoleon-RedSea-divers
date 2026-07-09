@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Star, MessageSquare, Waves } from "lucide-react";
-import { getApprovedComments, createComment } from "@/lib/guestComments";
+import { commentsApi } from "@/lib/api";
 
 export default function GuestCommentsSection() {
   const [comments, setComments] = useState([]);
@@ -16,9 +16,9 @@ export default function GuestCommentsSection() {
     loadComments();
   }, []);
 
-  const loadComments = () => {
+  const loadComments = async () => {
     try {
-      const data = getApprovedComments();
+      const data = await commentsApi.getAll();
       setComments(Array.isArray(data) ? data : []);
     } catch {
       setComments([]);
@@ -32,11 +32,10 @@ export default function GuestCommentsSection() {
     if (!form.name.trim() || !form.comment.trim()) return;
     setSubmitting(true);
     try {
-      createComment({
+      await commentsApi.create({
         name: form.name.trim(),
         comment: form.comment.trim(),
         rating: form.rating,
-        approved: false,
       });
       setSuccess(true);
       setForm({ name: "", comment: "", rating: 5 });
@@ -45,7 +44,7 @@ export default function GuestCommentsSection() {
         setShowForm(false);
       }, 3000);
     } catch {
-      // silent
+      // silent — form stays open so user can retry
     } finally {
       setSubmitting(false);
     }
