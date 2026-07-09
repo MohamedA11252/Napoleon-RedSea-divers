@@ -1,5 +1,6 @@
 const IMG = {
   discovery: "/534bc1fb5_generated_image.png",
+  openwater: "/open-water-diver.jpg",
   wreck: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/eaf837643_generated_425c7d06.png",
   garden: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/80116fa85_generated_73593ef5.png",
   coral: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/ae0fdb36f_generated_7393b9d6.png",
@@ -77,7 +78,7 @@ export const activities = [
     slug: "padi-open-water-diver",
     title: "PADI Open Water Diver",
     category: "Courses",
-    image: IMG.coral,
+    image: IMG.openwater,
     tagline: "Your passport to the underwater world — the world's most popular scuba certification.",
     stats: [
       { label: "Max Depth", value: "18m" },
