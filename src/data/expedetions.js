@@ -12,6 +12,7 @@ const IMG = {
   nitrox: "/nitrox-diver.jpg",
   sidemount: "/sidemount-diver.jpg",
   navigation: "/navigation-diver.png",
+  efr: "/efr-training.jpg",
 };
 
 export const categoryOrder = [
@@ -115,7 +116,7 @@ export const activities = [
     slug: "efr-emergency-first-response",
     title: "EFR (Emergency First Response)",
     category: "Courses",
-    image: IMG.barracuda,
+    image: IMG.efr,
     tagline: "Essential life-saving skills for divers and non-divers alike.",
     stats: [
       { label: "Duration", value: "1 Day" },
