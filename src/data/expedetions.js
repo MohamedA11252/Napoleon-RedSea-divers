@@ -16,6 +16,7 @@ const IMG = {
   ppb: "/peak-performance-buoyancy.jpg",
   dailydiving: "/daily-diving-boat.jpg",
   drift: "/drift-diving.avif",
+  reactivate: "/reactivate.avif",
 };
 
 export const categoryOrder = [
@@ -170,7 +171,7 @@ export const activities = [
     slug: "reactivate-refreshment",
     title: "ReActivate (Refreshment)",
     category: "Courses",
-    image: IMG.bluehole,
+    image: IMG.reactivate,
     tagline: "Haven't dived in a while? Refresh your skills and confidence in a single session.",
     stats: [
       { label: "Duration", value: "2 Hours" },
