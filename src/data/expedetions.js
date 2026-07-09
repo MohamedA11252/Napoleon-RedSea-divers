@@ -18,6 +18,7 @@ const IMG = {
   drift: "/drift-diving.avif",
   reactivate: "/reactivate.avif",
   aow: "/advanced-open-water.jpg",
+  discoveryscuba: "/discovery-scuba-diving.jpg",
 };
 
 export const categoryOrder = [
@@ -33,7 +34,7 @@ export const activities = [
     slug: "discovery-scuba-diving",
     title: "Discovery Scuba Diving",
     category: "Diving Experiences",
-    image: IMG.garden,
+    image: IMG.discoveryscuba,
     tagline: "Your first breaths beneath the surface — an unforgettable introduction to the underwater world.",
     stats: [
       { label: "Max Depth", value: "12m" },
