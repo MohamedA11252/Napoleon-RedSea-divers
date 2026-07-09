@@ -11,6 +11,7 @@ const IMG = {
   night: "/night-dive-diver.jpg",
   nitrox: "/nitrox-diver.jpg",
   sidemount: "/sidemount-diver.jpg",
+  navigation: "/navigation-diver.png",
 };
 
 export const categoryOrder = [
@@ -311,7 +312,7 @@ export const activities = [
     slug: "padi-Navigation-diver",
     title: "PADI Navigation Diver",
     category: "Specialities",
-    image: IMG.wreck,
+    image: IMG.navigation,
     tagline: "Navigate with confidence dive with purpose-explore the Red Sea .",
     stats: [
       { label: "Duration", value: "2 Days" },
