@@ -19,6 +19,7 @@ const IMG = {
   reactivate: "/reactivate.avif",
   aow: "/advanced-open-water.jpg",
   discoveryscuba: "/discovery-scuba-diving.jpg",
+  juniorow: "/junior-open-water-diver.jpg",
 };
 
 export const categoryOrder = [
@@ -71,7 +72,7 @@ export const activities = [
     slug: "junior-open-water-diver",
     title: "Junior Open Water Diver",
     category: "Courses",
-    image: IMG.coral,
+    image: IMG.juniorow,
     tagline: "The full certification for young divers aged 10-14 — adventure with age-appropriate depth limits.",
     stats: [
       { label: "Max Depth", value: "12-18m" },
