@@ -5,6 +5,12 @@ const IMG = {
   bluehole: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/2223c0f7e_generated_368b373c.png",
   barracuda: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/3a3e55a34_generated_bb3f9b85.png",
   night: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/71a987405_generated_62265158.png",
+  nightDive: "/night-dive.png",
+  sidemount: "/sidemount-divers.png",
+  nitrox: "/nitrox-tanks.jpg",
+  navigation: "/navigation-training.png",
+  juniorOpenWater: "/junior-open-water.jpg",
+  efr: "/efr-cpr-training.avif",
 };
 
 export const categoryOrder = [
@@ -93,7 +99,7 @@ export const activities = [
     slug: "padi-advanced-open-water",
     title: "PADI Advanced Open Water",
     category: "Courses",
-    image: IMG.coral,
+    image: IMG.navigation,
     tagline: "Take the next step — refine your skills and explore new underwater territories.",
     stats: [
       { label: "Max Depth", value: "30m" },
@@ -110,7 +116,7 @@ export const activities = [
     slug: "efr-emergency-first-response",
     title: "EFR (Emergency First Response)",
     category: "Courses",
-    image: IMG.barracuda,
+    image: IMG.efr,
     tagline: "Essential life-saving skills for divers and non-divers alike.",
     stats: [
       { label: "Duration", value: "1 Day" },
@@ -195,7 +201,8 @@ export const activities = [
     slug: "junior-open-water-diver",
     title: "Junior Open Water Diver",
     category: "Courses",
-    image: IMG.coral,
+    image: IMG.juniorOpenWater,
+    imageFit: "contain",
     tagline: "The full certification for young divers aged 10-14 — adventure with age-appropriate depth limits.",
     stats: [
       { label: "Max Depth", value: "12-18m" },
@@ -231,7 +238,7 @@ export const activities = [
     slug: "padi-night-diver",
     title: "PADI Night Diver",
     category: "Specialities",
-    image: IMG.night,
+    image: IMG.nightDive,
     tagline: "Discover a completely different underwater world after the sun goes down.",
     stats: [
       { label: "Duration", value: "2 Days" },
@@ -248,7 +255,7 @@ export const activities = [
     slug: "padi-enriched-air-nitrox",
     title: "PADI Enriched Air (Nitrox)",
     category: "Specialities",
-    image: IMG.coral,
+    image: IMG.nitrox,
     tagline: "Dive longer, dive safer — master the use of enriched air nitrox.",
     stats: [
       { label: "Duration", value: "1 Day" },
@@ -265,7 +272,7 @@ export const activities = [
     slug: "padi-sidemount",
     title: "PADI Sidemount",
     category: "Specialities",
-    image: IMG.coral,
+    image: IMG.sidemount,
     tagline: "Experience a new configuration that offers flexibility, redundancy, and comfort.",
     stats: [
       { label: "Duration", value: "2 Days" },
