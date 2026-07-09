@@ -14,6 +14,7 @@ const IMG = {
   navigation: "/navigation-diver.png",
   efr: "/efr-training.jpg",
   ppb: "/peak-performance-buoyancy.jpg",
+  dailydiving: "/daily-diving-boat.jpg",
 };
 
 export const categoryOrder = [
@@ -47,7 +48,7 @@ export const activities = [
     slug: "daily-diving",
     title: "Daily Diving",
     category: "Diving Experiences",
-    image: IMG.garden,
+    image: IMG.dailydiving,
     tagline: "Guided daily expeditions for certified divers across the Red Sea's finest reefs and wrecks.",
     stats: [
       { label: "Max Depth", value: "18m/40m(depending on your certification)" },
