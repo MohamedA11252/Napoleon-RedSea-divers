@@ -87,10 +87,10 @@ export default function Footer() {
                 concierge@napoleondiver.com
               </a>
               <a
-                href="tel:+20123456789"
+                href="tel:+201070222128"
                 className="block text-sm text-foreground/50 hover:text-primary transition-colors font-body focus:outline-none focus:ring-2 focus:ring-primary rounded px-1"
               >
-                +20 123 456 789
+                +20 107 022 128
               </a>
               <p className="text-sm text-foreground/50 font-body">
                 Sharm El Sheikh, South Sinai, Egypt

@@ -37,7 +37,7 @@ export default function Navbar() {
           <a href="#hero" className="flex items-center gap-3">
             <img
               src="https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/16e408804_WhatsAppImage2026-07-06at93924PM-Picsart-BackgroundRemover.jpeg"
-              alt="Napoleon RedSea Diver logo"
+              alt="Napoleon Red Sea Diver logo"
               className="w-12 h-12 object-contain rounded-full"
             />
             <span className="font-display text-xl font-semibold text-primary tracking-wide">

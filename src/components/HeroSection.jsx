@@ -54,7 +54,7 @@ export default function HeroSection() {
           <h1 className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-light text-foreground leading-[0.9] mb-8">
             Napoleon
             <br />
-            <span className="text-lagoon">Red</span><span className="text-primary">Sea</span>
+            <span className="text-primary">Red</span> <span className="text-primary">Sea</span>
             <br />
             Diver
           </h1>

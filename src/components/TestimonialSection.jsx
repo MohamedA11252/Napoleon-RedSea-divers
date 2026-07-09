@@ -14,7 +14,7 @@ const testimonials = [
     title: "Marine Photographer, London",
   },
   {
-    quote: "From the Nitrox briefing to the champagne on the sun deck, every moment was deliberate luxury. I've already booked my third expedition with them.",
+    quote: "Without a doubt, I feel I  have been trained by the very best, I very much look forward to contnuting my PADI journey and gaining further certifications. I stronly recommened Napoleon Red Sea Divers to anyone that wishes to adventure the deep and all the wonderful marine life it offers.",
     name: "Yuki Tanaka",
     title: "Technical Diver, Tokyo",
   },
@@ -35,7 +35,7 @@ export default function TestimonialsSection() {
             From the Logbook
           </p>
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-light text-foreground">
-            Voices from the Deep
+            Reviews from the Deep
           </h2>
         </motion.div>
 
