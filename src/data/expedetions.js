@@ -23,7 +23,7 @@ export const activities = [
     slug: "discovery-scuba-diving",
     title: "Discovery Scuba Diving",
     category: "Diving Experiences",
-    image: IMG.discovery,
+    image: IMG.garden,
     tagline: "Your first breaths beneath the surface — an unforgettable introduction to the underwater world.",
     stats: [
       { label: "Max Depth", value: "12m" },
