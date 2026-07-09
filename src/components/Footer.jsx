@@ -1,8 +1,10 @@
 import React from "react";
 import { Waves } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function Footer() {
+  const { isAdmin } = useAuth();
   return (
     <footer className="border-t border-primary/10 py-16 md:py-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -123,12 +125,14 @@ export default function Footer() {
             © {new Date().getFullYear()} Napoleon RedSea Diver. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <Link
-              to="/review-comments"
-              className="text-[11px] text-foreground/20 hover:text-primary font-body tracking-wide transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded px-1"
-            >
-              Guestbook Review
-            </Link>
+            {isAdmin && (
+              <Link
+                to="/review-comments"
+                className="text-[11px] text-foreground/20 hover:text-primary font-body tracking-wide transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded px-1"
+              >
+                Guestbook Review
+              </Link>
+            )}
             <p className="text-[11px] text-foreground/20 font-body tracking-wide">
               The Golden Standard of Underwater Exploration
             </p>

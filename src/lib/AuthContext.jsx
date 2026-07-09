@@ -32,15 +32,30 @@ export const AuthProvider = ({ children }) => {
     setAuthChecked(true);
   }, []);
 
-  const loginWithEmailPassword = async (email, password) => {
-    if (!email?.trim() || !password?.trim()) {
-      throw new Error('Email and password are required');
+  // Derived admin flag — only true when the stored user was authenticated as admin
+  const isAdmin = user?.isAdmin === true;
+
+  const loginWithEmailPassword = async (username, password) => {
+    if (!username?.trim() || !password?.trim()) {
+      throw new Error('Username and password are required');
+    }
+
+    const adminUsername = import.meta.env.VITE_ADMIN_USERNAME;
+    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+
+    if (!adminUsername || !adminPassword) {
+      throw new Error('Admin credentials are not configured. Please contact the site owner.');
+    }
+
+    if (username.trim() !== adminUsername || password !== adminPassword) {
+      throw new Error('Invalid username or password');
     }
 
     const nextUser = {
-      id: 'local-user',
-      email: email.trim(),
-      full_name: email.split('@')[0],
+      id: 'admin',
+      username: adminUsername,
+      full_name: 'Administrator',
+      isAdmin: true,
     };
 
     localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(nextUser));
@@ -51,19 +66,9 @@ export const AuthProvider = ({ children }) => {
     return nextUser;
   };
 
-  const loginWithProvider = async (provider) => {
-    const nextUser = {
-      id: `local-${provider}-user`,
-      email: `guest@${provider}.local`,
-      full_name: `${provider.charAt(0).toUpperCase()}${provider.slice(1)} User`,
-    };
-
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(nextUser));
-    setUser(nextUser);
-    setIsAuthenticated(true);
-    setAuthError(null);
-    setAuthChecked(true);
-    return nextUser;
+  // Provider sign-in is not used for admin — kept for interface compatibility
+  const loginWithProvider = async () => {
+    throw new Error('Provider sign-in is not available for admin login');
   };
 
   const checkUserAuth = async () => {
@@ -101,6 +106,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         isAuthenticated,
+        isAdmin,
         isLoadingAuth,
         isLoadingPublicSettings,
         authError,

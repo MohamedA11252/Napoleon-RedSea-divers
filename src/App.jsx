@@ -10,6 +10,7 @@ import ReviewComments from './pages/ReviewComments';
 import ActivityDetail from './pages/ActivityDetail';
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
+import AdminRoute from './components/AdminRoute';
 
 function App() {
   return (
@@ -20,9 +21,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/expedition/:slug" element={<ActivityDetail />} />
-            <Route path="/review-comments" element={<ReviewComments />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+
+            {/* Admin-only routes — redirect to /login if not authenticated as admin */}
+            <Route element={<AdminRoute />}>
+              <Route path="/review-comments" element={<ReviewComments />} />
+            </Route>
+
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>

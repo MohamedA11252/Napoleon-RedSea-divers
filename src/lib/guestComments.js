@@ -75,3 +75,9 @@ export function updateCommentApproval(id, approved) {
   writeAll(comments);
   return comments[index];
 }
+
+export function deleteComment(id) {
+  const comments = readAll();
+  const filtered = comments.filter((c) => c.id !== id);
+  writeAll(filtered);
+}

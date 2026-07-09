@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Check, X, Star, ArrowLeft } from "lucide-react";
-import { getAllComments, updateCommentApproval } from "@/lib/guestComments";
+import { Link, useNavigate } from "react-router-dom";
+import { Check, X, Star, ArrowLeft, LogOut, Clock, CheckCircle } from "lucide-react";
+import { getAllComments, updateCommentApproval, deleteComment } from "@/lib/guestComments";
+import { useAuth } from "@/lib/AuthContext";
 
-export default function ReviewComments({ approved = false }) {
+export default function ReviewComments() {
+  const { isAdmin, logout } = useAuth();
+  const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,11 +30,17 @@ export default function ReviewComments({ approved = false }) {
     loadComments();
   };
 
+  const handleDelete = (id) => {
+    deleteComment(id);
+    loadComments();
+  };
+
   const pending = comments.filter((c) => c.approved === false);
   const approvedComments = comments.filter((c) => c.approved !== false);
 
   return (
     <div className="bg-background min-h-screen">
+      {/* Header */}
       <div className="border-b border-primary/10">
         <div className="max-w-5xl mx-auto px-6 lg:px-12 py-6 flex items-center justify-between">
           <Link
@@ -41,9 +50,18 @@ export default function ReviewComments({ approved = false }) {
             <ArrowLeft size={16} />
             Back to Home
           </Link>
-          <p className="text-[11px] uppercase tracking-[0.35em] text-primary font-body">
-            Review Comments
-          </p>
+          <div className="flex items-center gap-6">
+            <p className="text-[11px] uppercase tracking-[0.35em] text-primary font-body hidden sm:block">
+              Admin Panel
+            </p>
+            <button
+              onClick={() => logout(true)}
+              className="flex items-center gap-2 text-foreground/40 hover:text-primary transition-colors text-[12px] uppercase tracking-[0.15em] font-body"
+            >
+              <LogOut size={15} />
+              Logout
+            </button>
+          </div>
         </div>
       </div>
 
@@ -59,10 +77,17 @@ export default function ReviewComments({ approved = false }) {
           </div>
         ) : (
           <div className="space-y-16">
+            {/* Pending section */}
             <section>
-              <h2 className="font-display text-2xl text-foreground mb-6">
-                Pending Review ({pending.length})
-              </h2>
+              <div className="flex items-center gap-3 mb-6">
+                <Clock size={18} className="text-foreground/40" strokeWidth={1.5} />
+                <h2 className="font-display text-2xl text-foreground">
+                  Pending Review
+                </h2>
+                <span className="text-[11px] uppercase tracking-[0.2em] text-foreground/40 font-body border border-foreground/15 px-2 py-0.5">
+                  {pending.length}
+                </span>
+              </div>
               {pending.length === 0 ? (
                 <p className="text-foreground/40 font-body text-sm">No comments awaiting review.</p>
               ) : (
@@ -71,19 +96,27 @@ export default function ReviewComments({ approved = false }) {
                     <CommentCard
                       key={comment.id}
                       comment={comment}
-                      approved={approved}
+                      isAdmin={isAdmin}
                       onApprove={() => handleApproval(comment.id, true)}
                       onReject={() => handleApproval(comment.id, false)}
+                      onDelete={() => handleDelete(comment.id)}
                     />
                   ))}
                 </div>
               )}
             </section>
 
+            {/* Approved section */}
             <section>
-              <h2 className="font-display text-2xl text-foreground mb-6">
-                Approved ({approvedComments.length})
-              </h2>
+              <div className="flex items-center gap-3 mb-6">
+                <CheckCircle size={18} className="text-primary/60" strokeWidth={1.5} />
+                <h2 className="font-display text-2xl text-foreground">
+                  Approved
+                </h2>
+                <span className="text-[11px] uppercase tracking-[0.2em] text-primary font-body border border-primary/20 px-2 py-0.5">
+                  {approvedComments.length}
+                </span>
+              </div>
               {approvedComments.length === 0 ? (
                 <p className="text-foreground/40 font-body text-sm">No approved comments yet.</p>
               ) : (
@@ -92,9 +125,11 @@ export default function ReviewComments({ approved = false }) {
                     <CommentCard
                       key={comment.id}
                       comment={comment}
-                      approved={true}
+                      isApproved
+                      isAdmin={isAdmin}
                       onApprove={() => handleApproval(comment.id, true)}
                       onReject={() => handleApproval(comment.id, false)}
+                      onDelete={() => handleDelete(comment.id)}
                     />
                   ))}
                 </div>
@@ -107,7 +142,7 @@ export default function ReviewComments({ approved = false }) {
   );
 }
 
-function CommentCard({ comment, approved = false, onApprove, onReject }) {
+function CommentCard({ comment, isApproved = false, isAdmin, onApprove, onReject, onDelete }) {
   return (
     <div className="border border-primary/10 bg-secondary/20 p-6">
       <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
@@ -121,7 +156,7 @@ function CommentCard({ comment, approved = false, onApprove, onReject }) {
         </div>
         <span
           className={`text-[10px] uppercase tracking-[0.15em] px-3 py-1 border ${
-            approved || comment.approved !== false
+            comment.approved !== false
               ? "border-primary/30 text-primary"
               : "border-foreground/20 text-foreground/50"
           }`}
@@ -145,24 +180,38 @@ function CommentCard({ comment, approved = false, onApprove, onReject }) {
         {comment.comment}
       </p>
 
-      <div className="flex gap-3">
-        <button
-          type="button"
-          onClick={onApprove}
-          className="inline-flex items-center gap-2 border border-primary/30 text-primary px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-body hover:bg-primary/10 transition-colors"
-        >
-          <Check size={14} />
-          Approve
-        </button>
-        <button
-          type="button"
-          onClick={onReject}
-          className="inline-flex items-center gap-2 border border-foreground/20 text-foreground/60 px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-body hover:bg-foreground/5 transition-colors"
-        >
-          <X size={14} />
-          Reject
-        </button>
-      </div>
+      {/* Management buttons — only visible to admin */}
+      {isAdmin && (
+        <div className="flex flex-wrap gap-3">
+          {comment.approved === false ? (
+            <button
+              type="button"
+              onClick={onApprove}
+              className="inline-flex items-center gap-2 border border-primary/30 text-primary px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-body hover:bg-primary/10 transition-colors"
+            >
+              <Check size={14} />
+              Approve
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={onReject}
+              className="inline-flex items-center gap-2 border border-foreground/20 text-foreground/60 px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-body hover:bg-foreground/5 transition-colors"
+            >
+              <X size={14} />
+              Revoke
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={onDelete}
+            className="inline-flex items-center gap-2 border border-destructive/30 text-destructive/70 px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-body hover:bg-destructive/10 transition-colors"
+          >
+            <X size={14} />
+            Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 }
