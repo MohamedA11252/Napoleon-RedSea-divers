@@ -15,6 +15,7 @@ const IMG = {
   efr: "/efr-training.jpg",
   ppb: "/peak-performance-buoyancy.jpg",
   dailydiving: "/daily-diving-boat.jpg",
+  drift: "/drift-diving.avif",
 };
 
 export const categoryOrder = [
@@ -291,7 +292,7 @@ export const activities = [
     slug: "padi-drift-diver",
     title: "PADI Drift Diver",
     category: "Specialities",
-    image: IMG.wreck,
+    image: IMG.drift,
     tagline: "Ride The Current,Own The Adventure Drift And Dive Smarter.",
     stats: [
       { label: "Duration", value: "2 Days" },
