@@ -15,6 +15,14 @@
     <link rel="manifest" href="/manifest.json" />
   </head>
   <body>
+    <script>
+      // Apply saved theme before paint to avoid a flash. Dark is the default.
+      try {
+        if (localStorage.getItem("theme") === "light") {
+          document.documentElement.classList.add("light");
+        }
+      } catch (e) {}
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
