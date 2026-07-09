@@ -5,6 +5,7 @@ const IMG = {
   coral: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/ae0fdb36f_generated_7393b9d6.png",
   bluehole: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/2223c0f7e_generated_368b373c.png",
   rescue: "/1ad61115d_generated_image.jpg",
+  divemaster: "/c64b8fa8e_generated_image.jpg",
   barracuda: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/3a3e55a34_generated_bb3f9b85.png",
   night: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/71a987405_generated_62265158.png",
 };
@@ -146,7 +147,7 @@ export const activities = [
     slug: "divemaster",
     title: "Divemaster",
     category: "Courses",
-    image: IMG.barracuda,
+    image: IMG.divemaster,
     tagline: "The first step into professional diving — transform your passion into a career.",
     stats: [
       { label: "Duration", value: "2+ Weeks" },
