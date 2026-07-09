@@ -11,19 +11,18 @@ const IMG = {
 };
 
 export const categoryOrder = [
-  "Discovery Scuba Diving",
-  "Daily Diving",
+  "Diving Experiences",
   "Courses",
   "Specialities",
   "Liveaboard Adventure",
 ];
 
 export const activities = [
-  // ── Discovery Scuba Diving ──
+  // ── Diving Experiences ──
   {
     slug: "discovery-scuba-diving",
     title: "Discovery Scuba Diving",
-    category: "Discovery Scuba Diving",
+    category: "Diving Experiences",
     image: IMG.discovery,
     tagline: "Your first breaths beneath the surface — an unforgettable introduction to the underwater world.",
     stats: [
@@ -38,11 +37,10 @@ export const activities = [
     price: "50.00 EUR",
   },
 
-  // ── Daily Diving ──
   {
     slug: "daily-diving",
     title: "Daily Diving",
-    category: "Daily Diving",
+    category: "Diving Experiences",
     image: IMG.garden,
     tagline: "Guided daily expeditions for certified divers across the Red Sea's finest reefs and wrecks.",
     stats: [
