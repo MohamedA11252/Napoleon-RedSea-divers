@@ -15,13 +15,29 @@ const app = express();
 const PORT = parseInt(process.env.SERVER_PORT || '3001', 10);
 const isProd = process.env.NODE_ENV === 'production';
 
+// ── Startup validation ──────────────────────────────────────────────────────
+// Fail immediately if required secrets are absent — never run with insecure
+// fallback values in production.
+const REQUIRED_ENV = ['SESSION_SECRET', 'ADMIN_USERNAME', 'ADMIN_PASSWORD'];
+const missingEnv = REQUIRED_ENV.filter((k) => !process.env[k]);
+if (missingEnv.length > 0) {
+  if (isProd) {
+    console.error(`[api] FATAL: missing required environment variables: ${missingEnv.join(', ')}`);
+    process.exit(1);
+  } else {
+    console.warn(`[api] WARNING: missing env vars (${missingEnv.join(', ')}) — admin login will not work until they are set.`);
+  }
+}
+
 // ── Middleware ──────────────────────────────────────────────────────────────
 
 app.use(express.json());
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'dev-fallback-secret-replace-in-prod',
+    // SESSION_SECRET must be set; startup validation above guarantees this in
+    // production. The empty-string fallback is unreachable in prod.
+    secret: process.env.SESSION_SECRET || '',
     resave: false,
     saveUninitialized: false,
     cookie: {
