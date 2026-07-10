@@ -170,23 +170,7 @@ export const activities = [
     ],
     price: "1000.00 EUR",
   },
-  {
-    slug: "reactivate-refreshment",
-    title: "ReActivate (Refreshment)",
-    category: "Courses",
-    image: IMG.reactivate,
-    tagline: "Haven't dived in a while? Refresh your skills and confidence in a single session.",
-    stats: [
-      { label: "Duration", value: "2 Hours" },
-      { label: "Level", value: "Certified" },
-      { label: "Cert", value: "Updated" },
-    ],
-    description: [
-      "If you haven't dived in six months or more, the PADI ReActivate programme is the ideal way to ease back into the water with confidence. This refresher course reviews essential knowledge and skills, ensuring you're comfortable and safe before your next dive trip. It's quick, easy, and tailored to your experience level.",
-      "The programme begins with an online knowledge review that you complete at your own pace, followed by a confined water session with one of our instructors. You'll practise equipment assembly, buoyancy control, mask clearing, alternate air source use, and other core skills. The session takes approximately two hours, after which you'll receive an updated certification card reflecting your reactivated status. All equipment is provided.",
-    ],
-    price: "00.00 EUR",
-  },
+ 
   
 
   // ── Specialities ──
@@ -205,7 +189,7 @@ export const activities = [
       "The PADI Deep Diver specialty certifies you to dive to 40 metres — the maximum depth for recreational diving. The Red Sea, with its exceptional visibility and dramatic wall dives, is the perfect location for this course. You'll learn the techniques, equipment considerations, and planning procedures for safely conducting deep dives.",
       "Over four training dives, you'll experience the physiological effects of depth, practise deep descents and ascents, learn about colour changes and pressure effects, and conduct emergency decompression procedures. You'll also learn to manage gas supply and handle the additional risks associated with deeper diving. Prerequisites: PADI Adventure Diver (or Advanced Open Water) and minimum age 15. Upon completion, you'll be certified to explore the Red Sea's deepest wrecks and walls.",
     ],
-    price: "00.00 EUR",
+    price: "260.00 EUR",
   },
   {
     slug: "padi-night-diver",
@@ -215,14 +199,14 @@ export const activities = [
     tagline: "Discover a completely different underwater world after the sun goes down.",
     stats: [
       { label: "Duration", value: "2 Days" },
-      { label: "Dives", value: "3 Night" },
+      { label: "Dives", value: "3 dives" },
       { label: "Cert", value: "Included" },
     ],
     description: [
       "The underwater world transforms entirely after dark. The PADI Night Diver specialty teaches you the skills and protocols for safe, enjoyable night diving — an experience that reveals marine life and behaviours you'll never see during the day. Octopus hunting, bioluminescent plankton, sleeping parrotfish, and the vibrant colours of corals under torchlight make night diving one of diving's most magical experiences.",
-      "Over three night dives, you'll learn dive light techniques, communication signals, navigation at night, and how to manage potential issues unique to low-visibility diving. You'll also experience the unforgettable moment of turning off your torch on a moonlit night to watch bioluminescent plankton sparkle around you. Prerequisites: PADI Open Water Diver and minimum age 12. All specialised equipment, including primary and backup torches, is provided.",
+      "Over three night dives, you'll learn dive light techniques, communication signals, navigation at night, and how to manage potential issues unique to low-visibility diving. You'll also experience the unforgettable moment of turning off your torch on a moonlit night to watch bioluminescent plankton sparkle around you..",
     ],
-    price: "00.00 EUR",
+    price: "240.00 EUR",
   },
   {
     slug: "padi-enriched-air-nitrox",
@@ -273,7 +257,7 @@ export const activities = [
       "The Red Sea is home to some of the world's most famous wreck dives, from the legendary SS Thistlegorm to the wrecks of Abu Nuhas reef. The PADI Wreck Diver specialty teaches you the skills to safely explore these underwater museums — mapping wrecks, assessing hazards, and conducting penetration dives within the light zone.",
       "Over four training dives, you'll learn wreck navigation and mapping, techniques for avoiding silt-out, the use of penetration lines and reels, and emergency procedures for wreck diving. You'll also study the history of the wrecks you dive, adding context and depth to the experience. Prerequisites: PADI Adventure Diver and minimum age 15. Upon completion, you'll be certified to plan and execute wreck penetration dives worldwide.",
     ],
-    price: "00.00 EUR",
+    price: "250.00 EUR",
   },
   {
     slug: "padi-Peak-Performance-Buoyancy-diver",
