@@ -10,7 +10,7 @@ const IMG = {
   barracuda: "https://media.base44.com/images/public/6a4bfe1f24077d99a17e4331/3a3e55a34_generated_bb3f9b85.png",
   night: "/night-dive-diver.jpg",
   nitrox: "/nitrox-diver.jpg",
-  sidemount: "/sidemount-diver.jpg",
+  sidemount: "/167b8dbcd_generated_image.jpg",
   navigation: "/navigation-diver.png",
   efr: "/efr-training.jpg",
   ppb: "/peak-performance-buoyancy.jpg",
