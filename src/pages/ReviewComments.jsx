@@ -36,15 +36,6 @@ export default function ReviewComments() {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await commentsApi.remove(id);
-      await loadComments();
-    } catch (err) {
-      setError(err.message || "Failed to delete comment.");
-    }
-  };
-
   const pending = comments.filter((c) => c.approved === false);
   const approvedComments = comments.filter((c) => c.approved === true);
 
@@ -113,7 +104,6 @@ export default function ReviewComments() {
                       isAdmin={isAdmin}
                       onApprove={() => handleApproval(comment.id, true)}
                       onReject={() => handleApproval(comment.id, false)}
-                      onDelete={() => handleDelete(comment.id)}
                     />
                   ))}
                 </div>
@@ -141,7 +131,6 @@ export default function ReviewComments() {
                       isAdmin={isAdmin}
                       onApprove={() => handleApproval(comment.id, true)}
                       onReject={() => handleApproval(comment.id, false)}
-                      onDelete={() => handleDelete(comment.id)}
                     />
                   ))}
                 </div>
@@ -154,7 +143,7 @@ export default function ReviewComments() {
   );
 }
 
-function CommentCard({ comment, isApproved = false, isAdmin, onApprove, onReject, onDelete }) {
+function CommentCard({ comment, isApproved = false, isAdmin, onApprove, onReject }) {
   return (
     <div className="border border-primary/10 bg-secondary/20 p-6">
       <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
@@ -214,14 +203,6 @@ function CommentCard({ comment, isApproved = false, isAdmin, onApprove, onReject
               Revoke
             </button>
           )}
-          <button
-            type="button"
-            onClick={onDelete}
-            className="inline-flex items-center gap-2 border border-destructive/30 text-destructive/70 px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-body hover:bg-destructive/10 transition-colors"
-          >
-            <X size={14} />
-            Delete
-          </button>
         </div>
       )}
     </div>

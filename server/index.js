@@ -7,7 +7,6 @@ import {
   readAll,
   createComment,
   updateCommentApproval,
-  deleteComment,
 } from './comments.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -144,13 +143,6 @@ app.patch('/api/comments/:id', requireAdmin, (req, res) => {
   const updated = updateCommentApproval(req.params.id, approved);
   if (!updated) return res.status(404).json({ error: 'Comment not found.' });
   res.json(updated);
-});
-
-// DELETE /api/comments/:id  (admin only)
-app.delete('/api/comments/:id', requireAdmin, (req, res) => {
-  const removed = deleteComment(req.params.id);
-  if (!removed) return res.status(404).json({ error: 'Comment not found.' });
-  res.json({ ok: true });
 });
 
 // ── Static frontend (production only) ──────────────────────────────────────

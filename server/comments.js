@@ -81,12 +81,3 @@ export function updateCommentApproval(id, approved) {
   writeAll(comments);
   return comments[index];
 }
-
-export function deleteComment(id) {
-  const comments = readAll();
-  const index = comments.findIndex((c) => c.id === id);
-  if (index === -1) return null;
-  const [removed] = comments.splice(index, 1);
-  writeAll(comments);
-  return removed;
-}

@@ -64,6 +64,4 @@ export const commentsApi = {
   setApproval: (id, approved) =>
     request('PATCH', `/api/comments/${id}`, { approved }),
 
-  /** Permanently delete a comment (admin only). */
-  remove: (id) => request('DELETE', `/api/comments/${id}`),
 };
