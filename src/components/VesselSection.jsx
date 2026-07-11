@@ -15,7 +15,7 @@ const specs = [
 
 export default function VesselSection() {
   return (
-    <section id="vessel" className="py-32 md:py-48">
+    <section id="marinelife" className="py-32 md:py-48">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left — specs */}

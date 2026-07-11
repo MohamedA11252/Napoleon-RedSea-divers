@@ -2,6 +2,7 @@ import React from "react";
 import { Waves } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
+import { Label } from "@radix-ui/react-label";
 
 export default function Footer() {
   const { isAdmin } = useAuth();
@@ -39,7 +40,7 @@ export default function Footer() {
             <div className="space-y-3">
               {[
                 { label: "Expeditions", href: "#expeditions" },
-                { label: "The Vessel", href: "#vessel" },
+                { label: "Marinelife", href: "#marinelife" },
                 { label: "Heritage", href: "#heritage" },
                 { label: "Reserve", href: "#reserve" },
               ].map((l) => (
@@ -95,15 +96,16 @@ export default function Footer() {
                 +20 107 022 128
               </a>
               <p className="text-sm text-foreground/50 font-body">
-                Sharm El Sheikh, South Sinai, Egypt
+                Hurghad, Red Sea, Egypt
               </p>
             </div>
             {/* Social */}
             <div className="flex gap-4 mt-6">
               {[
-                { label: "Instagram", href: "https://instagram.com/napoleondiver" },
+                { label: "Instagram", href: "https://www.instagram.com/napoleonredsea?igsh=MWFoNjVjOTFxZXM0cA==" },
                 { label: "YouTube", href: "https://youtube.com/@napoleondiver" },
-                { label: "Facebook", href: "https://facebook.com/napoleondiver" },
+                { label: "Facebook", href: "https://www.facebook.com/share/1JsVXmBfM8/?mibextid=wwXIfr" },
+                { label: "Tiktok", href: "https://www.tiktok.com/@napoleonredsea?_r=1&_t=ZS-97vr0AiKg0D" },
               ].map((s) => (
                 <a
                   key={s.label}

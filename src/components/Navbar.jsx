@@ -5,9 +5,9 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 const links = [
   { label: "Expeditions", href: "#expeditions" },
-  { label: "The Vessel", href: "#vessel" },
+  { label: "Marinelife", href: "#marinelife" },
   { label: "Heritage", href: "#heritage" },
-  { label: "Voices", href: "#voices" },
+  { label: "Reviews", href: "#reviews" },
   { label: "Reserve", href: "#expeditions" },
 ];
 
