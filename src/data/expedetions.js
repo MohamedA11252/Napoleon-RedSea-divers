@@ -19,6 +19,7 @@ const IMG = {
   reactivate: "/reactivate.avif",
   aow: "/advanced-open-water.jpg",
   discoveryscuba: "/discovery-scuba-diving.jpg",
+  snorkeling: "https://images.pexels.com/photos/2404370/pexels-photo-2404370.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   juniorow: "/junior-open-water-diver.jpg",
 };
 
