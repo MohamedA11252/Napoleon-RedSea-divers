@@ -20,6 +20,7 @@ const IMG = {
   aow: "/advanced-open-water.jpg",
   discoveryscuba: "/discovery-scuba-diving.jpg",
   snorkeling: "https://images.pexels.com/photos/2404370/pexels-photo-2404370.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  speedboat: "https://images.pexels.com/photos/12142137/pexels-photo-12142137.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   juniorow: "/junior-open-water-diver.jpg",
 };
 
@@ -66,6 +67,23 @@ export const activities = [
       "Each trip includes two immersive dives at different sites, separated by a surface interval on the sun deck where our chef prepares a gourmet brunch and refreshments. Our guides — each with thousands of dives in the Red Sea — provide thorough briefings and lead small groups of no more than six divers. (If you have Nitrox certification this can be availble at an extra cost) We recommend that experiance divers bring their own equipment where possible, However full dive gear is available to rent and will be costed via your enquiry. Whether you're joining us for a single day or a week of diving, every detail is orchestrated to deliver the golden standard of underwater exploration.",
     ],
     price: "70.00 EUR",
+  },
+  {
+    slug: "private-speed-boat",
+    title: "Private Speed Boat",
+    category: "Diving Experiences",
+    image: IMG.speedboat,
+    tagline: "Your own boat, your own pace — discover the Red Sea beyond the ordinary.",
+    stats: [
+      { label: "Level", value: "All Experience Levels" },
+      { label: "Guests", value: "Private Charter" },
+      { label: "Duration", value: "Full Day" },
+    ],
+    description: [
+      "Enjoy the freedom of a private speed boat charter designed around your group. Choose the reefs, beaches, and dive sites you want to explore, then travel between them quickly and comfortably with your own experienced captain and dive guide.",
+      "The charter is ideal for families, private groups, photographers, and certified divers who want a more flexible day on the water. We tailor the itinerary to the sea conditions and your interests, with time for swimming, snorkeling, diving, and relaxing at secluded Red Sea locations. Equipment and guide arrangements can be included as part of your enquiry.",
+    ],
+    price: "From 150.00 EUR",
   },
 
   // ── Courses ──
