@@ -48,6 +48,7 @@
     "cmdk": "^1.0.0",
     "concurrently": "^9.2.3",
     "date-fns": "^3.6.0",
+    "dotenv": "^17.4.2",
     "embla-carousel-react": "^8.5.2",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
