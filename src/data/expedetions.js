@@ -20,7 +20,7 @@ const IMG = {
   aow: "/advanced-open-water.jpg",
   discoveryscuba: "/discovery-scuba-diving.jpg",
   snorkeling: "https://images.pexels.com/photos/2404370/pexels-photo-2404370.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-  speedboat: "https://images.pexels.com/photos/12142137/pexels-photo-12142137.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  speedboat: "/files_10915081-2026-08-12T13-21-56-056Z-WhatsApp_Image_2026-08-12_at_4.01.34_PM.jpg",
   juniorow: "/junior-open-water-diver.jpg",
 };
 
@@ -84,6 +84,23 @@ export const activities = [
       "The charter is ideal for families, private groups, photographers, and certified divers who want a more flexible day on the water. We tailor the itinerary to the sea conditions and your interests, with time for swimming, snorkeling, diving, and relaxing at secluded Red Sea locations. Equipment and guide arrangements can be included as part of your enquiry.",
     ],
     price: "From 150.00 EUR",
+  },
+  {
+    slug: "snorkeling",
+    title: "Snorkeling",
+    category: "Diving Experiences",
+    image: IMG.snorkeling,
+    tagline: "Explore the Red Sea's vibrant reefs from the surface — no certification required.",
+    stats: [
+      { label: "Level", value: "No Experience Needed" },
+      { label: "Age", value: "All Ages Welcome" },
+      { label: "Duration", value: "Half or Full Day" },
+    ],
+    description: [
+      "Snorkeling is the simplest way to experience the Red Sea's extraordinary marine life. No certification or prior experience is needed — just a mask, snorkel, and fins, and you can drift above coral gardens teeming with colourful fish, sea turtles, and rays.",
+      "Our guided snorkeling trips visit sheltered reefs chosen for calm conditions and clear visibility, making them ideal for families, first-timers, and non-divers. A guide accompanies every group to ensure safety and help you find the best spots. Equipment is provided, and trips can be arranged as a half-day excursion or combined with a full day on the water.",
+    ],
+    price: "From 40.00 EUR",
   },
 
   // ── Courses ──
