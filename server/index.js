@@ -11,8 +11,6 @@ import {
 } from './comments.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const app = express();
-const PORT = parseInt(process.env.SERVER_PORT || '3001', 10);
 const isProd = process.env.NODE_ENV === 'production';
 
 // ── Startup validation ──────────────────────────────────────────────────────
@@ -29,26 +27,6 @@ if (missingEnv.length > 0) {
   }
 }
 
-// ── Middleware ──────────────────────────────────────────────────────────────
-
-app.use(express.json());
-
-app.use(
-  session({
-    // SESSION_SECRET must be set; startup validation above guarantees this in
-    // production. The empty-string fallback is unreachable in prod.
-    secret: process.env.SESSION_SECRET || '',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,          // JS cannot read this cookie
-      secure: isProd,          // HTTPS-only in production
-      sameSite: 'lax',
-      maxAge: 8 * 60 * 60 * 1000, // 8 hours
-    },
-  })
-);
-
 // ── Auth middleware ─────────────────────────────────────────────────────────
 
 function requireAdmin(req, res, next) {
@@ -58,109 +36,132 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-// ── Admin auth endpoints ────────────────────────────────────────────────────
+/**
+ * Build the Express app with all routes. Used both by the standalone server
+ * (production) and by the Vite dev plugin (development).
+ */
+export function createApiApp() {
+  const app = express();
 
-// POST /api/admin/login
-app.post('/api/admin/login', (req, res) => {
-  const { username, password } = req.body ?? {};
+  app.use(express.json());
 
-  const adminUsername = process.env.ADMIN_USERNAME;
-  const adminPassword = process.env.ADMIN_PASSWORD;
-
-  if (!adminUsername || !adminPassword) {
-    console.error('ADMIN_USERNAME / ADMIN_PASSWORD env vars are not set.');
-    return res.status(500).json({ error: 'Server misconfiguration — contact the site owner.' });
-  }
-
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Username and password are required.' });
-  }
-
-  // Constant-time comparison to avoid timing attacks
-  const usernameMatch = username === adminUsername;
-  const passwordMatch = password === adminPassword;
-
-  if (!usernameMatch || !passwordMatch) {
-    return res.status(401).json({ error: 'Invalid username or password.' });
-  }
-
-  req.session.regenerate((err) => {
-    if (err) return res.status(500).json({ error: 'Session error.' });
-    req.session.isAdmin = true;
-    res.json({ ok: true });
-  });
-});
-
-// POST /api/admin/logout
-app.post('/api/admin/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.clearCookie('connect.sid');
-    res.json({ ok: true });
-  });
-});
-
-// GET /api/admin/session  — lets the client ask the server if the session is valid
-app.get('/api/admin/session', (req, res) => {
-  res.json({ isAdmin: req.session?.isAdmin === true });
-});
-
-// ── Comment endpoints ───────────────────────────────────────────────────────
-
-// GET /api/comments
-// • Admin (valid session) → all comments (pending + approved)
-// • Public               → approved comments only
-app.get('/api/comments', (req, res) => {
-  const all = readAll().sort(
-    (a, b) => new Date(b.created_date) - new Date(a.created_date)
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || '',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: 'lax',
+        maxAge: 8 * 60 * 60 * 1000,
+      },
+    })
   );
 
-  if (req.session?.isAdmin === true) {
-    return res.json(all);
-  }
+  // ── Admin auth endpoints ────────────────────────────────────────────────────
 
-  res.json(all.filter((c) => c.approved === true));
-});
+  app.post('/api/admin/login', (req, res) => {
+    const { username, password } = req.body ?? {};
 
-// POST /api/comments  (public — anyone can submit, starts unapproved)
-app.post('/api/comments', (req, res) => {
-  const { name, comment, rating } = req.body ?? {};
-  if (!name?.trim() || !comment?.trim()) {
-    return res.status(400).json({ error: 'Name and comment are required.' });
-  }
-  const entry = createComment({
-    name: name.trim(),
-    comment: comment.trim(),
-    rating,
-  });
-  res.status(201).json(entry);
-});
+    const adminUsername = process.env.ADMIN_USERNAME;
+    const adminPassword = process.env.ADMIN_PASSWORD;
 
-// PATCH /api/comments/:id  (admin only — approve / revoke)
-app.patch('/api/comments/:id', requireAdmin, (req, res) => {
-  const { approved } = req.body ?? {};
-  if (typeof approved !== 'boolean') {
-    return res.status(400).json({ error: '"approved" must be a boolean.' });
-  }
-  const updated = updateCommentApproval(req.params.id, approved);
-  if (!updated) return res.status(404).json({ error: 'Comment not found.' });
-  res.json(updated);
-});
+    if (!adminUsername || !adminPassword) {
+      console.error('ADMIN_USERNAME / ADMIN_PASSWORD env vars are not set.');
+      return res.status(500).json({ error: 'Server misconfiguration — contact the site owner.' });
+    }
 
-// ── Static frontend (production only) ──────────────────────────────────────
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password are required.' });
+    }
 
-if (isProd) {
-  const distPath = join(__dirname, '..', 'dist');
-  if (existsSync(distPath)) {
-    app.use(express.static(distPath));
-    // SPA fallback — all non-API routes serve index.html
-    app.get(/^(?!\/api).*$/, (_req, res) => {
-      res.sendFile(join(distPath, 'index.html'));
+    const usernameMatch = username === adminUsername;
+    const passwordMatch = password === adminPassword;
+
+    if (!usernameMatch || !passwordMatch) {
+      return res.status(401).json({ error: 'Invalid username or password.' });
+    }
+
+    req.session.regenerate((err) => {
+      if (err) return res.status(500).json({ error: 'Session error.' });
+      req.session.isAdmin = true;
+      res.json({ ok: true });
     });
-  }
+  });
+
+  app.post('/api/admin/logout', (req, res) => {
+    req.session.destroy(() => {
+      res.clearCookie('connect.sid');
+      res.json({ ok: true });
+    });
+  });
+
+  app.get('/api/admin/session', (req, res) => {
+    res.json({ isAdmin: req.session?.isAdmin === true });
+  });
+
+  // ── Comment endpoints ───────────────────────────────────────────────────────
+
+  app.get('/api/comments', (req, res) => {
+    const all = readAll().sort(
+      (a, b) => new Date(b.created_date) - new Date(a.created_date)
+    );
+
+    if (req.session?.isAdmin === true) {
+      return res.json(all);
+    }
+
+    res.json(all.filter((c) => c.approved === true));
+  });
+
+  app.post('/api/comments', (req, res) => {
+    const { name, comment, rating } = req.body ?? {};
+    if (!name?.trim() || !comment?.trim()) {
+      return res.status(400).json({ error: 'Name and comment are required.' });
+    }
+    const entry = createComment({
+      name: name.trim(),
+      comment: comment.trim(),
+      rating,
+    });
+    res.status(201).json(entry);
+  });
+
+  app.patch('/api/comments/:id', requireAdmin, (req, res) => {
+    const { approved } = req.body ?? {};
+    if (typeof approved !== 'boolean') {
+      return res.status(400).json({ error: '"approved" must be a boolean.' });
+    }
+    const updated = updateCommentApproval(req.params.id, approved);
+    if (!updated) return res.status(404).json({ error: 'Comment not found.' });
+    res.json(updated);
+  });
+
+  return app;
 }
 
-// ── Start ───────────────────────────────────────────────────────────────────
+// ── Standalone server (production) ──────────────────────────────────────────
+// When run directly (node server/index.js), start listening on a port.
+// When imported by the Vite plugin, just export createApiApp and skip listening.
 
-app.listen(PORT, () => {
-  console.log(`[api] Server listening on port ${PORT}`);
-});
+const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+
+if (isMain) {
+  const app = createApiApp();
+  const PORT = parseInt(process.env.SERVER_PORT || '3001', 10);
+
+  if (isProd) {
+    const distPath = join(__dirname, '..', 'dist');
+    if (existsSync(distPath)) {
+      app.use(express.static(distPath));
+      app.get(/^(?!\/api).*$/, (_req, res) => {
+        res.sendFile(join(distPath, 'index.html'));
+      });
+    }
+  }
+
+  app.listen(PORT, () => {
+    console.log(`[api] Server listening on port ${PORT}`);
+  });
+}
